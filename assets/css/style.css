@@ -1,0 +1,22 @@
+.character {
+	height: 100px;
+	width: 100px;
+	border: solid 2px black;
+	display: inline-block;
+}
+
+.character-1 {
+	height: 100px;
+	width: 100px;
+	border: solid 2px black;
+}
+
+.your-character-location {
+	height: 10px;
+	width: 20px;
+	background-color: green;
+}
+
+/* button {
+	background: url("../images/rebelemp.jpg");
+} */
