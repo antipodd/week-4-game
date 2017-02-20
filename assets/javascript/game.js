@@ -340,8 +340,8 @@ $(document).ready(function() {
 				$(".message-area").append("<button class='restart'>Restart</button>");
 				$(".restart").on("click", function() {
 					console.log("restart works");
-					//reset();
-					location.reload();
+					reset();
+					//location.reload();
 				});
 			}
 			if (characterHealth > 0 && $(".enemy-characters").children(".character").length === 0 && $(".active-defender").children(".character").length === 0) {
@@ -349,6 +349,11 @@ $(document).ready(function() {
 			//win the game, put up reset button;
 			$(".message-area").html("<p>You have defeated all enemies!</p>");
 				$(".message-area").append("<button class='restart'>Restart</button>");
+				$(".restart").on("click", function() {
+					console.log("restart works");
+					reset();
+					//location.reload();
+				});
 			}
 		} else {
 			$(".message-area").html("<p>No defender selected</p>")
