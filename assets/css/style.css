@@ -1,15 +1,87 @@
+@font-face {
+   font-family: "title";
+   src: url("../fonts/Starjhol.ttf");
+}
+
+@font-face {
+   font-family: "SGH";
+   src: url("../fonts/SerifGothicBQ-Heavy.otf");
+}
+
+body {
+   background: url("../images/ou7Yofa.jpg") no-repeat;
+ }
+
+.title {
+	float: right;
+	text-align: center;
+	padding-top: 30px;
+	font-family: "SGH";
+}
+
+h1 {
+	font-family: "title";
+	font-size: 80px;
+	color: yellow;
+	margin-top: -20px;
+}
+
+.container {
+	margin: 0 auto;
+	width: 1200px;
+}
+
+
+
+.title p {
+	font-family: "SGH";
+	font-size: 30px;
+	color: white;
+}
+
 .character {
+	position:relative;
+	height: 200px;
+	width: 200px;
+	border: solid 2px black;
+	display: inline-block;
+	background-color: white;
+	text-align: center;
+}
+
+.character p {
+	padding-top: 5px;
+}
+
+.character .health {
+	position: relative;
+	top: 160px;
+}
+
+/* .character .r2d2 {
 	height: 100px;
 	width: 100px;
 	border: solid 2px black;
 	display: inline-block;
+} */
+
+.your-character {
+	height: 250px;
+	width: 200px;
 }
 
-.character-1 {
-	height: 100px;
-	width: 100px;
-	border: solid 2px black;
+.your-character .character {
+	background-color: green;
 }
+
+.enemies {
+	height: 250px;
+	width: 700px;
+	float: left;
+}
+/* .enemy-characters {
+	padding: 20px 20px 20px 0px;
+} */
 
 .your-character-location {
 	height: 10px;
@@ -17,6 +89,65 @@
 	background-color: green;
 }
 
+.available-characters {
+	height: 250px;
+	width: 900px;
+	padding-top: 30px;
+}
+
+.top {
+	height: 250px;
+	width: 700px;
+}
+
+h3 {
+	font-family: "SGH";
+	font-size: 30px;
+	color: white;
+}
+
+.enemy-characters .character {
+	background-color: red;
+}
+
+.active-defender .character {
+	background-color: black;
+	color: yellow;
+}
+
+.image {
+	position: absolute;
+  	top: 50%; left: 50%;
+  	transform: translate(-50%,-50%);
+ }
+
+.image img {
+	height: 150px;
+  	width: 150px;
+}
 /* button {
 	background: url("../images/rebelemp.jpg");
 } */
+
+.attack-image {
+	position: absolute;
+}
+
+.attack-text {
+	position: relative;
+	left: 40px;
+	top: 150px;
+	font-family: "SGH";
+	font-size: 50px;
+	color: yellow;
+
+}
+
+.fight {
+	float:right;
+	margin-right: 90px;
+}
+
+.defender {
+	clear: both;
+}
