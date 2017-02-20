@@ -166,7 +166,7 @@ $(document).ready(function() {
 		fight.addClass("fight");
 		$(".container").append(fight);
 		$(".fight").html("<h3>Fight Section</h3>");
-		var attack = $("<button>Attack!</button>");
+		var attack = $("<button><p>Attack!</p></button>");
 		attack.addClass("attack");
 		$(".fight").append(attack);
 
@@ -190,16 +190,17 @@ $(document).ready(function() {
 		//yourCharacter = $(this);	//need to set global variable if you want to use this		
 		if ($(this).hasClass("r2d2")) {
 			gameData.r2D2.sound();
-			$(".attack-image").attr("src","./assets/images/rebel.png");
+			//$(".attack-image").attr("src","./assets/images/rebel.png");
+			$(".attack").prepend("<div class='icon'><img src=./assets/images/rebel.png alt=" + gameData.r2D2.allegiance + "></div>");
 		} else if ($(this).hasClass("luke")) {
 			gameData.lukeSkywalker.sound();
-			$(".attack-image").attr("src","./assets/images/rebel.png");
+			$(".attack").prepend("<div class='icon'><img src=./assets/images/rebel.png alt=" + gameData.lukeSkywalker.allegiance + "></div>");
 		} else if ($(this).hasClass("vader")) {
 			gameData.darthVader.sound();
-			$(".attack-image").attr("src","./assets/images/empire.png")
+			$(".attack").prepend("<div class='icon'><img src=./assets/images/empire.png alt=" + gameData.darthVader.allegiance + "></div>");
 		} else if ($(this).hasClass("idiot")) {
 			gameData.jarJarBinks.sound();
-			$(".attack-image").attr("src","./assets/images/jarjar2.jpg")
+			$(".attack").prepend("<div class='icon'><img src=./assets/images/jarjar2.jpg alt=" + gameData.jarJarBinks.allegiance + "></div>");
 		}
 		$(this).animateAppendTo(".your-character", 1000);
 		$(this).css({"background-color": "green"});
@@ -209,13 +210,12 @@ $(document).ready(function() {
 		//$(".available-characters").children().not($(this)).animateAppendTo(".enemy-characters", 1000); //this animates but then the selected character goes to display:none and I can't override it
 		$(".available-characters").children().appendTo(".enemy-characters"); //could create div of remaining characters and then animate that div
 		setTimeout(function() {
-			$( ".top" ).animate({
-    
-    	height: "30px"
-  		}, 1000, function() {
+			$(".top").animate({
+    	    	height: "30px"
+  			}, 1000, function() {
     // Animation complete.
-  		});
-		}, 1000);
+  				});
+			}, 1000);
 		
 		/*setTimeout(function() {
 			$(".top").remove();
@@ -358,7 +358,7 @@ $(document).ready(function() {
 				$(".message-area").html("<p>You have been defeated....GAME OVER!</p>");
 				$(".message-area").append("<button class='restart'>Restart</button>");
 				$(".restart").on("click", function() {
-					console.log("restart works");
+					//console.log("restart works");
 					reset();
 					//location.reload();
 				});
