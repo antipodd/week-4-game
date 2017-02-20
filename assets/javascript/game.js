@@ -65,6 +65,22 @@ $(document).ready(function() {
 		}
 	} 
 
+	var characterHealth;
+	var characterAttack;
+	var yourCharacter;
+	var activeDefender;
+	var defenderHealth;
+	var defenderAttack;
+	var attackCounter;
+	var activeDefenderName;
+
+	var health;
+	var health2;
+	var health3;
+	var health4;
+
+	reset(); //add stuff to DOM, restart game
+
 	function reset () {
 		$("body").empty();
 		var container = $("<div></div>");
@@ -84,12 +100,12 @@ $(document).ready(function() {
 		var charR2D2 = $("<div></div>");
 		charR2D2.addClass("character r2d2");
 		$(".available-characters").append(charR2D2);
-		$(".r2d2").html("<p>" + gameData.r2D2.name + "</p>");
+		$(".r2d2").html("<h6>" + gameData.r2D2.name + "</h6>");
 		var image = $("<div></div>");
 		image.addClass("image image1");
 		$(".r2d2").append(image);
 		$(".image1").append("<img src=" + gameData.r2D2.image + " alt=" + gameData.r2D2.name + ">");
-		var health = $("<div></div>");
+		health = $("<div></div>");
 		health.addClass("health health1");
 		$(".r2d2").append(health);
 		$(".health").append("Health: " + gameData.r2D2.health);
@@ -97,12 +113,12 @@ $(document).ready(function() {
 		var charluke = $("<div></div>");
 		charluke.addClass("character luke");
 		$(".available-characters").append(charluke);
-		$(".luke").html("<p>" + gameData.lukeSkywalker.name + "</p>");
+		$(".luke").html("<h6>" + gameData.lukeSkywalker.name + "</h6>");
 		var image2 = $("<div></div>");
 		image2.addClass("image image2");
 		$(".luke").append(image2);
 		$(".image2").append("<img src=" + gameData.lukeSkywalker.image + " alt=" + gameData.lukeSkywalker.name + ">");
-		var health2 = $("<div></div>");
+		health2 = $("<div></div>");
 		health2.addClass("health health2");
 		$(".luke").append(health2);
 		$(".health2").append("Health: " + gameData.lukeSkywalker.health);
@@ -110,12 +126,12 @@ $(document).ready(function() {
 		var charvader = $("<div></div>");
 		charvader.addClass("character vader");
 		$(".available-characters").append(charvader);
-		$(".vader").html("<p>" + gameData.darthVader.name + "</p>");
+		$(".vader").html("<h6>" + gameData.darthVader.name + "</h6>");
 		var image3 = $("<div></div>");
 		image3.addClass("image image3");
 		$(".vader").append(image3);
 		$(".image3").append("<img src=" + gameData.darthVader.image + " alt=" + gameData.darthVader.name + ">");
-		var health3 = $("<div></div>");
+		health3 = $("<div></div>");
 		health3.addClass("health health3");
 		$(".vader").append(health3);
 		$(".health3").append("Health: " + gameData.darthVader.health);
@@ -123,12 +139,12 @@ $(document).ready(function() {
 		var charjar = $("<div></div>");
 		charjar.addClass("character idiot");
 		$(".available-characters").append(charjar);
-		$(".idiot").html("<p>" + gameData.jarJarBinks.name + "</p>");
+		$(".idiot").html("<h6>" + gameData.jarJarBinks.name + "</h6>");
 		var image4 = $("<div></div>");
 		image4.addClass("image image4");
 		$(".idiot").append(image4);
 		$(".image4").append("<img src=" + gameData.jarJarBinks.image + " alt=" + gameData.jarJarBinks.name + ">");
-		var health4 = $("<div></div>");
+		health4 = $("<div></div>");
 		health4.addClass("health health4");
 		$(".idiot").append(health4);
 		$(".health4").append("Health: " + gameData.jarJarBinks.health);
@@ -167,22 +183,6 @@ $(document).ready(function() {
 		$(".container").append(messageArea);
 
 		attackCounter = 0;
-	}
-
-	var characterHealth;
-	var characterAttack;
-	var yourCharacter;
-	var activeDefender;
-	var defenderHealth;
-	var defenderAttack;
-	var attackCounter;
-	var activeDefenderName;
-
-	reset(); //add stuff to DOM, restart game
-
-	
-	
-		
 	
 		/*console.log("hello");*/
 		//character selection
@@ -201,12 +201,12 @@ $(document).ready(function() {
 			gameData.jarJarBinks.sound();
 			$(".attack-image").attr("src","./assets/images/jarjar2.jpg")
 		}
-		//$(this).animateAppendTo(".your-character", 1000);
+		$(this).animateAppendTo(".your-character", 1000);
 		$(this).css({"background-color": "green"});
 		
-		$(this).appendTo(".your-character");
+		//$(this).appendTo(".your-character");
 		setCharacterAttackAndHealth($(this));
-		//$(".available-characters").children().not($(this)).animateAppendTo(".enemy-characters", 1000);
+		//$(".available-characters").children().not($(this)).animateAppendTo(".enemy-characters", 1000); //this animates but then the selected character goes to display:none and I can't override it
 		$(".available-characters").children().appendTo(".enemy-characters"); //could create div of remaining characters and then animate that div
 		setTimeout(function() {
 			$( ".top" ).animate({
@@ -230,16 +230,21 @@ $(document).ready(function() {
 			//$(this).appendTo(".active-defender");
 			$(".message-area").empty();
 			setDefenderAttackAndHealth($(this));
+			//console.log(activeDefenderName)
 			activeDefender = $(this);
 			$(this).css({"background-color": "black", "color": "yellow"});
 			if ($(this).hasClass("r2d2")) {
 				gameData.r2D2.sound();
+				//health.addClass("defender-health");
 			} else if ($(this).hasClass("luke")) {
 				gameData.lukeSkywalker.sound();
+				//health2.addClass("defender-health");
 			} else if ($(this).hasClass("vader")) {
 				gameData.darthVader.sound();
+				//health3.addClass("defender-health");
 			} else if ($(this).hasClass("idiot")) {
 				gameData.jarJarBinks.sound();
+				//health4.addClass("defender-health");
 		    }
 		}
 	});
@@ -253,15 +258,19 @@ $(document).ready(function() {
 		if ((selectedCharacter).hasClass("r2d2")) {
 			characterHealth = gameData.r2D2.health;
      		characterAttack = gameData.r2D2.attack;
+     		$(".health1").addClass("character-health").removeClass("health health1");
 		} else if ((selectedCharacter).hasClass("luke")) {
 			characterHealth = gameData.lukeSkywalker.health;
      		characterAttack = gameData.lukeSkywalker.attack;
+     		$(".health2").addClass("character-health").removeClass("health health2");
 		} else if ((selectedCharacter).hasClass("vader")) {
      	   	characterHealth = gameData.darthVader.health;
      		characterAttack = gameData.darthVader.attack;
+     		$(".health3").addClass("character-health").removeClass("health health3");
 		} else if ((selectedCharacter).hasClass("idiot")) {
 			characterHealth = gameData.jarJarBinks.health;
      		characterAttack = gameData.jarJarBinks.attack;
+     		$(".health4").addClass("character-health").removeClass("health health4");
 		}
 	}
 
@@ -270,25 +279,29 @@ $(document).ready(function() {
 			defenderHealth = gameData.r2D2.health;
      		defenderAttack = gameData.r2D2.counterAttack;
      		activeDefenderName = gameData.r2D2.name;
+     		$(".health1").addClass("defender-health").removeClass("health health1");
 		} else if ((selectedCharacter).hasClass("luke")) {
 			defenderHealth = gameData.lukeSkywalker.health;
      		defenderAttack = gameData.lukeSkywalker.counterAttack;
      		activeDefenderName = gameData.lukeSkywalker.name;
+     		$(".health2").addClass("defender-health").removeClass("health health2");
 		} else if ((selectedCharacter).hasClass("vader")) {
      	   	defenderHealth = gameData.darthVader.health;
      		defenderAttack = gameData.darthVader.counterAttack;
      		activeDefenderName = gameData.darthVader.name;
+     		$(".health3").addClass("defender-health").removeClass("health health3");
 		} else if ((selectedCharacter).hasClass("idiot")) {
 			defenderHealth = gameData.jarJarBinks.health;
      		defenderAttack = gameData.jarJarBinks.counterAttack;
      		activeDefenderName = gameData.jarJarBinks.name;
+     		$(".health4").addClass("defender-health").removeClass("health health4");
 		}
 	}
 
 	//trying to create a jquery plugin to animate movement
 	$.fn.animateAppendTo = function(sel, speed, queue) {
 		var $this = this;
-		console.log('this is', this)
+		//console.log('this is', this)
 		newEle = $this.clone(true).appendTo(sel);
 		newPos = newEle.position();
 		newEle.hide();
@@ -315,16 +328,22 @@ $(document).ready(function() {
 		if (characterHealth > 0 && $(".active-defender").children(".character").length > 0) {
 			attackCounter++;
 			gameData.attack.sound();
-			$(".message-area").html("<p>You attacked " + activeDefenderName + "for " + characterAttack*attackCounter + " damage!</p>")
-		
-			console.log(defenderHealth);
 			defenderHealth = defenderHealth - characterAttack*attackCounter;
-			console.log(characterAttack*attackCounter)
+			$(".message-area").html("<p>You attacked " + activeDefenderName + "for " + characterAttack*attackCounter + " damage!</p>")
+			$(".defender-health").html("<p>Health: " + defenderHealth + "</p>");
+			
+			
+
+
+			
+			
+			//console.log(characterAttack*attackCounter)
 			console.log(defenderHealth);
 			if (defenderHealth > 0) { //only counter attack if defender is still alive
 				characterHealth = characterHealth - defenderAttack;
 				console.log(characterHealth);
-				$(".message-area").append("<p>" + activeDefenderName + " attacked you for " + defenderAttack + " damage!</p>")
+				$(".message-area").append("<p>" + activeDefenderName + " attacked you for " + defenderAttack + " damage!</p>");
+				$(".character-health").html("<p>Health: " + characterHealth + "</p>");
 			}
 			if (defenderHealth <= 0 && characterHealth > 0) {
 				$(".active-defender").empty();
@@ -345,17 +364,17 @@ $(document).ready(function() {
 				});
 			}
 			if (characterHealth > 0 && $(".enemy-characters").children(".character").length === 0 && $(".active-defender").children(".character").length === 0) {
-			console.log($(".active-defender").children(".character").length)
+			//console.log($(".active-defender").children(".character").length)
 			//win the game, put up reset button;
 			$(".message-area").html("<p>You have defeated all enemies!</p>");
 				$(".message-area").append("<button class='restart'>Restart</button>");
 				$(".restart").on("click", function() {
-					console.log("restart works");
+					//console.log("restart works");
 					reset();
 					//location.reload();
 				});
 			}
-		} else {
+		} else if (characterHealth > 0 && $(".active-defender").children(".character").length === 0) {
 			$(".message-area").html("<p>No defender selected</p>")
 		}
 	});
@@ -365,5 +384,5 @@ $(document).ready(function() {
 			location.reload();
 	});*/
 
-
+	}
 });
