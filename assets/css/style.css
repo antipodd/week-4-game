@@ -201,6 +201,7 @@ button {
 .icon img {
 	width: 30px;
 	float:left;
+	border-radius: 100%;
 }
 
 .restart:hover {

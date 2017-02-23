@@ -3,9 +3,9 @@ $(document).ready(function() {
 	var gameData = {
 		r2D2: {
 			name: "R2-D2",
-			health: 80,
-			attack: 20,
-			counterAttack: 40,
+			health: 90,
+			attack: 8,
+			counterAttack: 10,
 			image: "assets/images/r2d2-2.jpg",
 			sound: function() {
 				var audio = new Audio("./assets/sounds/R2D2a.wav");
@@ -16,8 +16,8 @@ $(document).ready(function() {
 		lukeSkywalker: {
 			name: "Luke Skywalker",
 			health: 80,
-			attack: 40,
-			counterAttack: 30,
+			attack: 10,
+			counterAttack: 8,
 			image: "assets/images/luke.jpg",
 			sound: function() {
 				var audio = new Audio("./assets/sounds/CONVERTS.wav");
@@ -28,8 +28,8 @@ $(document).ready(function() {
 		darthVader: {
 			name: "Darth Vader",
 			health: 120,
-			attack: 75,
-			counterAttack: 40,
+			attack: 20,
+			counterAttack: 10,
 			image: "assets/images/vader.jpg",
 			sound: function() {
 				var audio = new Audio("./assets/sounds/ThyBidding.wav");
@@ -39,8 +39,8 @@ $(document).ready(function() {
 		},
 		jarJarBinks: {
 			name: "Jar Jar Binks",
-			health: 200,
-			attack: 40,
+			health: 150,
+			attack: 10,
 			counterAttack: 20,
 			image: "assets/images/jarjar.jpg",
 			sound: function() {
@@ -79,9 +79,20 @@ $(document).ready(function() {
 	var health3;
 	var health4;
 
-	reset(); //add stuff to DOM, restart game
+	function reset() {
+		loadDOM(); 
+		selectCharacter();
+		selectDefender();
+		onAttack();
+	}
 
-	function reset () {
+	reset();
+
+
+
+		//add stuff to DOM, restart game
+
+	function loadDOM () {
 		$("body").empty();
 		var container = $("<div></div>");
 		container.addClass("container");
@@ -183,14 +194,15 @@ $(document).ready(function() {
 		$(".container").append(messageArea);
 
 		attackCounter = 0;
+	}
 	
 		/*console.log("hello");*/
-		//character selection
+	function selectCharacter() {	//character selection
 	$(".available-characters").on("click", ".character", function() {
 		//yourCharacter = $(this);	//need to set global variable if you want to use this		
 		if ($(this).hasClass("r2d2")) {
 			gameData.r2D2.sound();
-			//$(".attack-image").attr("src","./assets/images/rebel.png");
+			
 			$(".attack").prepend("<div class='icon'><img src=./assets/images/rebel.png alt=" + gameData.r2D2.allegiance + "></div>");
 		} else if ($(this).hasClass("luke")) {
 			gameData.lukeSkywalker.sound();
@@ -202,31 +214,42 @@ $(document).ready(function() {
 			gameData.jarJarBinks.sound();
 			$(".attack").prepend("<div class='icon'><img src=./assets/images/jarjar2.jpg alt=" + gameData.jarJarBinks.allegiance + "></div>");
 		}
-		$(this).animateAppendTo(".your-character", 1000);
+		$(this).animateAppendTo(".your-character", 1000); //if this is active then bugs occur, display:none if enemy selected during animation
 		$(this).css({"background-color": "green"});
 		
 		//$(this).appendTo(".your-character");
 		setCharacterAttackAndHealth($(this));
 		//$(".available-characters").children().not($(this)).animateAppendTo(".enemy-characters", 1000); //this animates but then the selected character goes to display:none and I can't override it
 		$(".available-characters").children().appendTo(".enemy-characters"); //could create div of remaining characters and then animate that div
+		$("body").css( {"pointer-events": "none"} );
 		setTimeout(function() {
+			$("body").css( {"pointer-events": "auto"} );
 			$(".top").animate({
     	    	height: "30px"
   			}, 1000, function() {
     // Animation complete.
   				});
 			}, 1000);
+
 		
 		/*setTimeout(function() {
 			$(".top").remove();
 		}, 1000);*/
 		//add attack button/div that is styled to correspond to selected characters allegiance	
 	});
+	}
 	//defender selection
+	function selectDefender() {
 	$('.enemy-characters').on('click', '.character', function() {
 		if ($('.active-defender').children('.character').length === 0) {
 			activeDefender = $(this);
-			$(this).animateAppendTo(".active-defender", 1000);
+			//setTimeout(function() {
+				$(this).animateAppendTo(".active-defender", 1000);
+				$("body").css( {"pointer-events": "none"} );
+				setTimeout(function() {
+					$("body").css( {"pointer-events": "auto"} );
+				}, 1000);
+			//}, 1000);
 			//$(this).appendTo(".active-defender");
 			$(".message-area").empty();
 			setDefenderAttackAndHealth($(this));
@@ -248,6 +271,7 @@ $(document).ready(function() {
 		    }
 		}
 	});
+	}
 	//check for repeated additions to active-defender after removal of existing active defender
 	//$(".active-defender").on("click", ".character", function() {
 		//$(this).remove(); //need to comment out
@@ -311,19 +335,8 @@ $(document).ready(function() {
 		});
 		return newEle;
 	};
-	//trying to create a jquery plugin to animate movement of remaining characters to enemies section
-	/*$.fn.childrenAnimateAppendTo = function(sel, speed) {
-		var $this = $(".available-characters.children");
-		newEle = $this.clone(true).appendTo(sel);
-		newPos = newEle.position();
-		newEle.hide();
-		$this.css({"position": "absolute", "display": "block"}).animate(newPos, speed, function() {
-			newEle.show();
-			$this.remove();
-		});
-		return newEle;
-	};
-*/
+	
+	function onAttack() {
 	$(".attack").on("click", function() {
 		if (characterHealth > 0 && $(".active-defender").children(".character").length > 0) {
 			attackCounter++;
@@ -332,16 +345,11 @@ $(document).ready(function() {
 			$(".message-area").html("<p>You attacked " + activeDefenderName + "for " + characterAttack*attackCounter + " damage!</p>")
 			$(".defender-health").html("<p>Health: " + defenderHealth + "</p>");
 			
-			
-
-
-			
-			
 			//console.log(characterAttack*attackCounter)
-			console.log(defenderHealth);
+			//console.log(defenderHealth);
 			if (defenderHealth > 0) { //only counter attack if defender is still alive
 				characterHealth = characterHealth - defenderAttack;
-				console.log(characterHealth);
+				//console.log(characterHealth);
 				$(".message-area").append("<p>" + activeDefenderName + " attacked you for " + defenderAttack + " damage!</p>");
 				$(".character-health").html("<p>Health: " + characterHealth + "</p>");
 			}
@@ -374,15 +382,11 @@ $(document).ready(function() {
 					//location.reload();
 				});
 			}
-		} else if (characterHealth > 0 && $(".active-defender").children(".character").length === 0) {
+		} else if (characterHealth > 0 && $(".active-defender").children(".character").length === 0 && $(".enemy-characters").children(".character").length > 0) {
 			$(".message-area").html("<p>No defender selected</p>")
 		}
 	});
-	/*$(".restart").on("click", function() {
-			console.log("restart works");
-			reset();
-			location.reload();
-	});*/
-
+	
 	}
+
 });
