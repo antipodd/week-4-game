@@ -20,7 +20,7 @@ $(document).ready(function() {
 			counterAttack: 8,
 			image: "assets/images/luke.jpg",
 			sound: function() {
-				var audio = new Audio("./assets/sounds/CONVERTS.wav");
+				var audio = new Audio("./assets/sounds/CONVERTS.WAV");
 				audio.play();
 				},
 			allegiance: "rebel"
